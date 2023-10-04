@@ -17,7 +17,7 @@ Creates and returns a plane of size rowsxcols
 Plans have windows but no aisles (to keep the simulation simple)
 S is seat
 W is window
-'name' is taken
+X is taken
 """
 def create_plane(rows,cols):
   return [['W' if (col == 0 or col == cols-1) else 'S' for col in range(cols)] for row in range(rows)]
@@ -68,7 +68,7 @@ Returns: a string suitable for printing. """
 def get_plane_string(plane):
   string = ""
   for row in plane: 
-    string += "\t".join(row) + " \n"
+    string += "\t\t".join(row) + " \n"
   return string
 
 
@@ -118,6 +118,23 @@ def seat_economy(plane,economy_sold,name):
     plane[r][c] = name
   return plane
   print(get_plane_string(plane))
+
+def seat_economy_family(plane, economy_sold, name):
+  #print(economy_sold[name])
+  familysize = economy_sold[name]
+  rowsize = len(plane[0])
+  rows = len(plane)
+  # row - size options
+  for r in range(rows-1, 0, -1):
+    row = plane[r]
+    for i in range(rowsize - familysize + 1):
+      if set(row[i:i+familysize]).issubset(set(('S', "W"))):
+        for j in range(familysize):
+          row[i+j] = name
+        return plane
+  for i in range(economy_sold[name]):
+    seat_economy(plane, economy_sold, name)
+  return plane
   
 """  
 Purchase regular economy seats. As long as there are sufficient seats
@@ -145,15 +162,21 @@ def fill_plane(plane):
   # then, economy are assigned
   economy_count = 0
   while get_avail_seats(plane, economy_sold) > 0:
-    amt = random.randint(0,3)
+    amt = random.randint(1,3)
     economy_sold = purchase_economy_block(plane, economy_sold, amt,f'e{economy_count}')
     economy_count += 1
     #print(get_avail_seats(plane, economy_sold))
     #input()
+  individuals = []
   for name in economy_sold:
-    for i in range(economy_sold[name]):
-      plane = seat_economy(plane, economy_sold, name)
-      #print(get_plane_string(plane))
+    #print(get_plane_string(plane))
+    #input()
+    if (economy_sold[name] == 1):
+      individuals.append(name)
+    else: 
+      plane = seat_economy_family(plane, economy_sold, name)
+  for name in individuals:
+    plane = seat_economy_family(plane, economy_sold, name)
   return plane
 
     
