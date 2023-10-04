@@ -1,8 +1,8 @@
-# card_matches.py
+# plane_seating.py
 # Luis Collado
 # CSCI 77800 Fall 2023
 # collaborators: none
-# consulted: python docs on random module
+# consulted: none
 
 """This program simulates the sales of tickets for a specific flight.
 
