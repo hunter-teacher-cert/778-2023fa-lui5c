@@ -17,7 +17,7 @@ Creates and returns a plane of size rowsxcols
 Plans have windows but no aisles (to keep the simulation simple)
 S is seat
 W is window
-X is taken
+'name' is taken
 """
 def create_plane(rows,cols):
   return [['W' if (col == 0 or col == cols-1) else 'S' for col in range(cols)] for row in range(rows)]
