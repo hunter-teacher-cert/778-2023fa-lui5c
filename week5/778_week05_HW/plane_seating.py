@@ -128,7 +128,7 @@ def seat_economy_family(plane, economy_sold, name):
   for r in range(rows-1, 0, -1):
     row = plane[r]
     for i in range(rowsize - familysize + 1):
-      if set(row[i:i+familysize]).issubset(set(('S', "W"))):
+      if len("".join(row[i:i+familysize])) == familysize:
         for j in range(familysize):
           row[i+j] = name
         return plane
