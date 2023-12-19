@@ -155,7 +155,7 @@ def purchase_economy_plus(plane,economy_sold,name):
     rows = len(plane)
     cols = len(plane[0])
 
-    
+
     # total unassigned seats
     seats = get_avail_seats(plane,economy_sold)
 
@@ -168,7 +168,7 @@ def purchase_economy_plus(plane,economy_sold,name):
     # it this by making a list of all the rows, randomizing it
     # and then trying each row to try to grab a seat
 
-    
+
     if random.randrange(100) > 30:
         # make a list of all the rows using a list comprehension
         order = [x for x in range(rows)]
@@ -209,7 +209,7 @@ def seat_economy(plane,economy_sold,name):
     We use this when we're ready to assign the economy seats after most 
     of the economy plus seats are sold
 
- 
+
     """
     rows = len(plane)
     cols = len(plane[0])
@@ -218,7 +218,7 @@ def seat_economy(plane,economy_sold,name):
     while not(found_seat):
       # <<<<<<<<<<<< change >>>>>>>>>>>>>>>>>>>
         r_row = 0
-        while 'avail' not in plane[r_row]: r_row+=1 
+        while 'avail' not in plane[r_row] and r_row < rows: r_row+=1 
         r_col = random.randrange(0,cols)
         if plane[r_row][r_col] == "win" or plane[r_row][r_col] == "avail":
             plane[r_row][r_col] = name
@@ -249,10 +249,10 @@ def fill_plane(plane):
 
     """
 
-    
+
     economy_sold={}
     total_seats = get_total_seats(plane)
-    
+
 
 
     # these are for naming the pasengers and families by
@@ -276,7 +276,7 @@ def fill_plane(plane):
             economy_sold = purchase_economy_block(plane,economy_sold,1+random.randrange(max_family_size),"u-%d"%u_number)
             u_number = u_number + 1
 
-        
+
     # once the plane reaches a certian seating capacity, assign
     # seats to the economy plus passengers
     # you will have to complete the seat_economy function
@@ -287,9 +287,9 @@ def fill_plane(plane):
 
 
     return plane
-    
-    
-    
+
+
+
 def main():
     plane = create_plane(10,5)
     plane = fill_plane(plane)
